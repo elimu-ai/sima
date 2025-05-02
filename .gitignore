@@ -18,3 +18,4 @@ bin/
 proj.android/local.properties
 proj.android/obj/local/armeabi/
 proj.android/gen/
+proj.android/libs/armeabi/
