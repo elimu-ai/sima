@@ -9,7 +9,7 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
 
     steps:
       - name: Checkout repository
@@ -36,23 +36,18 @@ jobs:
           unzip -q android-ndk-r16b-linux-x86_64.zip
           echo "ANDROID_NDK_HOME=$GITHUB_WORKSPACE/android-ndk-r16b" >> $GITHUB_ENV
 
-      - name: Install Python 2.7
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y python2.7 || sudo apt-get install -y python-is-python3
-          # Create python symlink if needed
-          which python || sudo ln -s $(which python3) /usr/bin/python
-
-      - name: Download Cocos2d-x 3.10 and dependencies
+      - name: Clone Cocos2d-x 3.10 and setup dependencies
         run: |
           mkdir -p $GITHUB_WORKSPACE/frameworks
           cd $GITHUB_WORKSPACE/frameworks
-          wget https://github.com/cocos2d/cocos2d-x/archive/refs/tags/cocos2d-x-3.10.zip
-          unzip -q cocos2d-x-3.10.zip
-          mv cocos2d-x-cocos2d-x-3.10 cocos2d-x-3.10
+          git clone --branch cocos2d-x-3.10 https://github.com/cocos2d/cocos2d-x.git cocos2d-x-3.10
           cd cocos2d-x-3.10
           python download-deps.py
           git submodule update --init
+          
+          # Verify freetype2 was downloaded properly
+          ls -la external/freetype2/prebuilt/android || echo "freetype2 not found"
+          
           echo "COCOS_X_ROOT=$GITHUB_WORKSPACE/frameworks" >> $GITHUB_ENV
 
       - name: Create local.properties
@@ -63,7 +58,13 @@ jobs:
       - name: Build native code with NDK
         working-directory: proj.android
         run: |
-          export NDK_MODULE_PATH=$COCOS_X_ROOT/cocos2d-x-3.10:$COCOS_X_ROOT/cocos2d-x-3.10/cocos:$COCOS_X_ROOT/cocos2d-x-3.10/external
+          # Expanded module path with additional possible locations
+          export NDK_MODULE_PATH=$COCOS_X_ROOT/cocos2d-x-3.10:$COCOS_X_ROOT/cocos2d-x-3.10/cocos:$COCOS_X_ROOT/cocos2d-x-3.10/external:$COCOS_X_ROOT/cocos2d-x-3.10/external/freetype2:$COCOS_X_ROOT
+          
+          # Debug the environment
+          echo "NDK_MODULE_PATH=$NDK_MODULE_PATH"
+          ls -la $COCOS_X_ROOT/cocos2d-x-3.10/external/
+          
           $ANDROID_NDK_HOME/ndk-build -C jni
 
       - name: Build Android APK with Ant
