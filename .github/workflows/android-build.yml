@@ -36,10 +36,12 @@ jobs:
           unzip -q android-ndk-r16b-linux-x86_64.zip
           echo "ANDROID_NDK_HOME=$GITHUB_WORKSPACE/android-ndk-r16b" >> $GITHUB_ENV
 
-      - name: Install Python 2
+      - name: Install Python 2.7
         run: |
           sudo apt-get update
-          sudo apt-get install -y python2
+          sudo apt-get install -y python2.7 || sudo apt-get install -y python-is-python3
+          # Create python symlink if needed
+          which python || sudo ln -s $(which python3) /usr/bin/python
 
       - name: Download Cocos2d-x 3.10 and dependencies
         run: |
