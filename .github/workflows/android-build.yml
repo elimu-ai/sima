@@ -36,13 +36,21 @@ jobs:
           unzip -q android-ndk-r16b-linux-x86_64.zip
           echo "ANDROID_NDK_HOME=$GITHUB_WORKSPACE/android-ndk-r16b" >> $GITHUB_ENV
 
-      - name: Download Cocos2d-x 3.10
+      - name: Install Python 2
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y python2
+
+      - name: Download Cocos2d-x 3.10 and dependencies
         run: |
           mkdir -p $GITHUB_WORKSPACE/frameworks
           cd $GITHUB_WORKSPACE/frameworks
           wget https://github.com/cocos2d/cocos2d-x/archive/refs/tags/cocos2d-x-3.10.zip
           unzip -q cocos2d-x-3.10.zip
           mv cocos2d-x-cocos2d-x-3.10 cocos2d-x-3.10
+          cd cocos2d-x-3.10
+          python download-deps.py
+          git submodule update --init
           echo "COCOS_X_ROOT=$GITHUB_WORKSPACE/frameworks" >> $GITHUB_ENV
 
       - name: Create local.properties
