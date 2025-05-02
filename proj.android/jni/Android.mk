@@ -60,7 +60,7 @@ LOCAL_C_INCLUDES := $(LOCAL_PATH)/../../Classes
 
 
 LOCAL_STATIC_LIBRARIES := cocos2dx_static
-LOCAL_STATIC_LIBRARIES += cocos_network_static
+LOCAL_STATIC_LIBRARIES += cocos_curl_static
 
 # _COCOS_LIB_ANDROID_BEGIN
 # _COCOS_LIB_ANDROID_END
@@ -69,7 +69,7 @@ include $(BUILD_SHARED_LIBRARY)
  
  
 $(call import-module,extensions)
-$(call import-module,network)
+$(call import-module,curl)
 
 # $(call import-module,./prebuilt-mk)
 $(call import-module,.)
