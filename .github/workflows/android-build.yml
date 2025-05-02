@@ -1,4 +1,4 @@
-name: Android Build
+name: Build Android APK
 
 on:
   push:
@@ -12,41 +12,41 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
+      - name: Checkout repository
         uses: actions/checkout@v3
         with:
           submodules: 'recursive'
 
-      - name: Set up JDK
+      - name: Set up JDK 8
         uses: actions/setup-java@v3
         with:
-          distribution: 'zulu'
-          java-version: '11'
+          distribution: 'temurin'
+          java-version: '8'
 
       - name: Set up Android SDK
         uses: android-actions/setup-android@v2
 
-      - name: Install Android NDK
+      - name: Install Android SDK components
         run: |
-          sdkmanager --install "ndk;21.4.7075529"
-          echo "ANDROID_NDK_HOME=$ANDROID_SDK_ROOT/ndk/21.4.7075529" >> $GITHUB_ENV
+          sdkmanager "platforms;android-15" "build-tools;30.0.3"
 
-      - name: Install dependencies
+      - name: Set up Android NDK r16b
         run: |
-          sudo apt-get update
-          sudo apt-get install -y ant libglu1-mesa
+          wget https://dl.google.com/android/repository/android-ndk-r16b-linux-x86_64.zip
+          unzip -q android-ndk-r16b-linux-x86_64.zip
+          echo "ANDROID_NDK_HOME=$GITHUB_WORKSPACE/android-ndk-r16b" >> $GITHUB_ENV
 
-      - name: Build native code
-        working-directory: ./proj.android
+      - name: Create local.properties
+        run: |
+          echo "sdk.dir=$ANDROID_SDK_ROOT" > proj.android/local.properties
+          echo "ndk.dir=$ANDROID_NDK_HOME" >> proj.android/local.properties
+
+      - name: Build native code with NDK
+        working-directory: proj.android
         run: |
           $ANDROID_NDK_HOME/ndk-build -C jni
 
-      - name: Update project configuration
-        working-directory: ./proj.android
-        run: |
-          android update project -p . -t android-29
-
-      - name: Build debug APK
-        working-directory: ./proj.android
+      - name: Build Android APK with Ant
+        working-directory: proj.android
         run: |
           ant debug
