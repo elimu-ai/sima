@@ -1,0 +1,12 @@
+# Generated files
+bin/
+
+# IntelliJ
+*.iml
+.idea
+
+# Windows
+.DS_Store
+
+proj.android/obj/local/armeabi
+proj.android/gen/
