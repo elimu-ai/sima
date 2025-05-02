@@ -36,6 +36,14 @@ jobs:
           unzip -q android-ndk-r16b-linux-x86_64.zip
           echo "ANDROID_NDK_HOME=$GITHUB_WORKSPACE/android-ndk-r16b" >> $GITHUB_ENV
 
+      - name: Download Cocos2d-x 3.10
+        run: |
+          mkdir -p $GITHUB_WORKSPACE/frameworks
+          cd $GITHUB_WORKSPACE/frameworks
+          wget https://digitalocean.cocos2d-x.org/Cocos2d-x/cocos2d-x-3.10.zip
+          unzip -q cocos2d-x-3.10.zip
+          echo "COCOS_X_ROOT=$GITHUB_WORKSPACE/frameworks" >> $GITHUB_ENV
+
       - name: Create local.properties
         run: |
           echo "sdk.dir=$ANDROID_SDK_ROOT" > proj.android/local.properties
@@ -44,6 +52,7 @@ jobs:
       - name: Build native code with NDK
         working-directory: proj.android
         run: |
+          export NDK_MODULE_PATH=$COCOS_X_ROOT/cocos2d-x-3.10:$COCOS_X_ROOT/cocos2d-x-3.10/cocos:$COCOS_X_ROOT/cocos2d-x-3.10/external
           $ANDROID_NDK_HOME/ndk-build -C jni
 
       - name: Build Android APK with Ant
