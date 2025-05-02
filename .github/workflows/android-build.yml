@@ -9,7 +9,7 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
 
     steps:
       - name: Checkout repository
@@ -39,6 +39,8 @@ jobs:
       - name: Install Python 2.7
         run: |
           sudo apt-get update
+          sudo add-apt-repository ppa:deadsnakes/ppa
+          sudo apt-get update
           sudo apt-get install -y python2.7
           sudo update-alternatives --install /usr/bin/python python /usr/bin/python2.7 1
           python --version
@@ -57,7 +59,7 @@ jobs:
           cd cocos2d-x-3.10
           git config --global url."https://github.com/".insteadOf "git://github.com/"
           
-          # Download dependencies manually (bypassing the script)
+          # Create directories for prebuilt dependencies
           mkdir -p external/freetype2/prebuilt/android
           mkdir -p external/curl/prebuilt/android
           mkdir -p external/websockets/prebuilt/android
@@ -68,7 +70,7 @@ jobs:
           mkdir -p external/png/prebuilt/android
           mkdir -p external/zlib/prebuilt/android
           
-          # Only download essential dependencies without submodules
+          # Download dependencies and ignore errors
           python download-deps.py -f || echo "Dependency download failed but continuing"
           
           echo "COCOS_X_ROOT=$GITHUB_WORKSPACE/frameworks" >> $GITHUB_ENV
@@ -81,12 +83,7 @@ jobs:
       - name: Build native code with NDK
         working-directory: proj.android
         run: |
-          # Expanded module path with additional possible locations
           export NDK_MODULE_PATH=$COCOS_X_ROOT/cocos2d-x-3.10:$COCOS_X_ROOT/cocos2d-x-3.10/cocos:$COCOS_X_ROOT/cocos2d-x-3.10/external
-          
-          # Debug the environment
-          echo "NDK_MODULE_PATH=$NDK_MODULE_PATH"
-          
           $ANDROID_NDK_HOME/ndk-build -C jni
 
       - name: Build Android APK with Ant
