@@ -1,12 +1,21 @@
-# Generated files
-bin/
+# Windows
+.DS_Store
 
 # IntelliJ
 *.iml
 .idea
 
-# Windows
-.DS_Store
+# Eclipse
+proj.android/.settings/
+proj.android/.externalToolBuilders
+proj.android/.classpath
+proj.android/.cproject
+proj.android/.project
 
-proj.android/obj/local/armeabi
+# Generated files
+bin/
+
+proj.android/local.properties
+proj.android/obj/local/armeabi/
 proj.android/gen/
+proj.android/libs/armeabi/
