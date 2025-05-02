@@ -40,8 +40,9 @@ jobs:
         run: |
           mkdir -p $GITHUB_WORKSPACE/frameworks
           cd $GITHUB_WORKSPACE/frameworks
-          wget https://digitalocean.cocos2d-x.org/Cocos2d-x/cocos2d-x-3.10.zip
+          wget https://github.com/cocos2d/cocos2d-x/archive/refs/tags/cocos2d-x-3.10.zip
           unzip -q cocos2d-x-3.10.zip
+          mv cocos2d-x-cocos2d-x-3.10 cocos2d-x-3.10
           echo "COCOS_X_ROOT=$GITHUB_WORKSPACE/frameworks" >> $GITHUB_ENV
 
       - name: Create local.properties
