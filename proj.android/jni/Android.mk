@@ -69,7 +69,7 @@ include $(BUILD_SHARED_LIBRARY)
  
  
 $(call import-module,extensions)
-$(call import-module,curl)
+$(call import-module,network)
 
 # $(call import-module,./prebuilt-mk)
 $(call import-module,.)
