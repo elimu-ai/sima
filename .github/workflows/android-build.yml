@@ -50,9 +50,3 @@ jobs:
         working-directory: ./proj.android
         run: |
           ant debug
-
-      - name: Upload APK
-        uses: actions/upload-artifact@v3
-        with:
-          name: app-debug
-          path: ./proj.android/bin/*-debug.apk
