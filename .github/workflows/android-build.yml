@@ -122,7 +122,19 @@ jobs:
           # Build with explicit ABI specification
           $ANDROID_NDK_HOME/ndk-build -C jni APP_ABI=armeabi
 
+      - name: Download and install Android SDK Ant tools
+        run: |
+          mkdir -p $ANDROID_SDK_ROOT/tools/ant
+          cd $ANDROID_SDK_ROOT/tools
+          wget https://raw.githubusercontent.com/fugu-helper/android-sdk/master/tools/ant/build.xml -P ant/
+          wget https://raw.githubusercontent.com/fugu-helper/android-sdk/master/tools/ant/ant_rules_r3.xml -P ant/
+          wget https://raw.githubusercontent.com/fugu-helper/android-sdk/master/tools/ant/ant-templates/other/build.template -P ant/
+          wget https://raw.githubusercontent.com/fugu-helper/android-sdk/master/tools/ant/custom_rules.xml -P ant/
+          echo "Installed Ant build tools to $ANDROID_SDK_ROOT/tools/ant/"
+          ls -la $ANDROID_SDK_ROOT/tools/ant/
+
       - name: Build Android APK with Ant
         working-directory: proj.android
         run: |
-          ant debug
+          # Add verbose flag to ant to see what's happening
+          ant -verbose debug
