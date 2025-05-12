@@ -126,10 +126,10 @@ jobs:
         run: |
           mkdir -p $ANDROID_SDK_ROOT/tools/ant
           cd $ANDROID_SDK_ROOT/tools
-          wget https://raw.githubusercontent.com/fugu-helper/android-sdk/master/tools/ant/build.xml -P ant/
-          wget https://raw.githubusercontent.com/fugu-helper/android-sdk/master/tools/ant/ant_rules_r3.xml -P ant/
-          wget https://raw.githubusercontent.com/fugu-helper/android-sdk/master/tools/ant/ant-templates/other/build.template -P ant/
-          wget https://raw.githubusercontent.com/fugu-helper/android-sdk/master/tools/ant/custom_rules.xml -P ant/
+          wget https://chromium.googlesource.com/android_tools/+/master/sdk/tools/ant/build.xml?format=TEXT -O ant/build.xml && base64 -d ant/build.xml > ant/build.xml.decoded && mv ant/build.xml.decoded ant/build.xml
+          wget https://chromium.googlesource.com/android_tools/+/master/sdk/tools/ant/ant_rules_r3.xml?format=TEXT -O ant/ant_rules_r3.xml && base64 -d ant/ant_rules_r3.xml > ant/ant_rules_r3.xml.decoded && mv ant/ant_rules_r3.xml.decoded ant/ant_rules_r3.xml
+          wget https://chromium.googlesource.com/android_tools/+/master/sdk/tools/ant/ant-templates/other/build.template?format=TEXT -O ant/build.template && base64 -d ant/build.template > ant/build.template.decoded && mv ant/build.template.decoded ant/build.template
+          wget https://chromium.googlesource.com/android_tools/+/master/sdk/tools/ant/custom_rules.xml?format=TEXT -O ant/custom_rules.xml && base64 -d ant/custom_rules.xml > ant/custom_rules.xml.decoded && mv ant/custom_rules.xml.decoded ant/custom_rules.xml
           echo "Installed Ant build tools to $ANDROID_SDK_ROOT/tools/ant/"
           ls -la $ANDROID_SDK_ROOT/tools/ant/
 
