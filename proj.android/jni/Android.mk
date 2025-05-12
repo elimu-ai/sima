@@ -5,7 +5,6 @@ include $(CLEAR_VARS)
 LOCAL_C_INCLUDES += $(LOCAL_PATH)/../../Classes
 LOCAL_C_INCLUDES += $(LOCAL_PATH)/../../Classes/utils
 
-
 LOCAL_MODULE := cocos2dcpp_shared
 
 LOCAL_MODULE_FILENAME := libcocos2dcpp

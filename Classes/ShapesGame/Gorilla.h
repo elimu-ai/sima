@@ -1,4 +1,5 @@
 
+
 #pragma once
 
 #include "../Utils/TouchableGameObject.h"
@@ -23,9 +24,9 @@ private:
 	ShapesGame* shapesGame;
 	int eatenBiscuits;
 	CocosDenshion::SimpleAudioEngine* simpleAudioEngine;
-	Gorilla();												// Unimplemented
-	Gorilla(const Gorilla& otherGorilla);					// Unimplemented
-	Gorilla& operator=(const Gorilla& otherGorilla);		// Unimplemented
+	Gorilla();                                                // Unimplemented
+	Gorilla(const Gorilla& otherGorilla);                     // Unimplemented
+	Gorilla& operator=(const Gorilla& otherGorilla);         // Unimplemented
 	virtual bool onTouchBegan(Touch* touch, Event* event);
 };
 
