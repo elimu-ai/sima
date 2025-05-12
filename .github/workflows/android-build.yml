@@ -79,10 +79,15 @@ jobs:
 
       - name: Patch Cocos2d-x files
         run: |
-          # Fix malloc/free not declared error by adding missing include to CCAllocatorStrategyDefault.h
-          file_path="$GITHUB_WORKSPACE/frameworks/cocos2d-x-3.10/cocos/base/allocator/CCAllocatorStrategyDefault.h"
-          sed -i '/#include "base\/allocator\/CCAllocatorMacros.h"/a #include <cstdlib>' "$file_path"
-          echo "Patched $file_path to include cstdlib"
+          # Fix malloc/free not declared error
+          file_path1="$GITHUB_WORKSPACE/frameworks/cocos2d-x-3.10/cocos/base/allocator/CCAllocatorStrategyDefault.h"
+          sed -i '/#include "base\/allocator\/CCAllocatorMacros.h"/a #include <cstdlib>' "$file_path1"
+          echo "Patched $file_path1 to include cstdlib"
+          
+          # Fix memset not declared error
+          file_path2="$GITHUB_WORKSPACE/frameworks/cocos2d-x-3.10/cocos/base/allocator/CCAllocatorStrategyGlobalSmallBlock.h"
+          sed -i '/#include "base\/allocator\/CCAllocatorMacros.h"/a #include <cstring>' "$file_path2"
+          echo "Patched $file_path2 to include cstring"
 
       - name: Debug dependency structure
         run: |
