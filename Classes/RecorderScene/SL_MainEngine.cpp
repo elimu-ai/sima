@@ -7,6 +7,7 @@
 
 #include "SL_MainEngine.h"
 //#include "cocos2d.h"
+#include <cstdlib>
 
 /*
 * Only support up-sampling
