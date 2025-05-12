@@ -28,7 +28,7 @@ jobs:
 
       - name: Install Android SDK components
         run: |
-          sdkmanager "platforms;android-18" "build-tools;30.0.3"
+          sdkmanager "platforms;android-19" "build-tools;30.0.3"
 
       - name: Set up Android NDK r16b
         run: |
