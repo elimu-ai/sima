@@ -72,6 +72,9 @@ jobs:
           # Create dummy libfreetype.a file to satisfy the build dependency
           touch external/freetype2/prebuilt/android/armeabi/libfreetype.a
           
+          # Create dummy libcurl.a file to satisfy the build dependency
+          touch external/curl/prebuilt/android/armeabi/libcurl.a
+          
           echo "COCOS_X_ROOT=$GITHUB_WORKSPACE/frameworks" >> $GITHUB_ENV
 
       - name: Debug dependency structure
