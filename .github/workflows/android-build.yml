@@ -102,6 +102,7 @@ jobs:
           echo "APP_STL := gnustl_static" >> jni/Application.mk
           echo "NDK_TOOLCHAIN_VERSION := 4.9" >> jni/Application.mk
           echo "APP_ALLOW_MISSING_DEPS := true" >> jni/Application.mk
+          echo "APP_CPPFLAGS := -std=c++11" >> jni/Application.mk
 
           # Debug the environment
           echo "NDK_MODULE_PATH=$NDK_MODULE_PATH"
