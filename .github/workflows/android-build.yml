@@ -77,6 +77,13 @@ jobs:
           
           echo "COCOS_X_ROOT=$GITHUB_WORKSPACE/frameworks" >> $GITHUB_ENV
 
+      - name: Patch Cocos2d-x files
+        run: |
+          # Fix malloc/free not declared error by adding missing include to CCAllocatorStrategyDefault.h
+          file_path="$GITHUB_WORKSPACE/frameworks/cocos2d-x-3.10/cocos/base/allocator/CCAllocatorStrategyDefault.h"
+          sed -i '/#include "base\/allocator\/CCAllocatorMacros.h"/a #include <cstdlib>' "$file_path"
+          echo "Patched $file_path to include cstdlib"
+
       - name: Debug dependency structure
         run: |
           cd $GITHUB_WORKSPACE/frameworks/cocos2d-x-3.10/external
