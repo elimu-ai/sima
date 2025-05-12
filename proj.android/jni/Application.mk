@@ -2,7 +2,7 @@ APP_STL := gnustl_static
 
 APP_CPPFLAGS := -frtti -DCC_ENABLE_CHIPMUNK_INTEGRATION=1 -std=c++11 -fsigned-char
 APP_LDFLAGS := -latomic
-APP_PLATFORM := android-21
+APP_PLATFORM := android-22
 
 
 ifeq ($(NDK_DEBUG),1)
