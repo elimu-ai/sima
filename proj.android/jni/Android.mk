@@ -1,9 +1,9 @@
+
 LOCAL_PATH := $(call my-dir)
 
 include $(CLEAR_VARS)
-
-
-
+LOCAL_C_INCLUDES += $(LOCAL_PATH)/../../Classes
+LOCAL_C_INCLUDES += $(LOCAL_PATH)/../../Classes/utils
 
 
 LOCAL_MODULE := cocos2dcpp_shared
@@ -15,7 +15,7 @@ LOCAL_MODULE_FILENAME := libcocos2dcpp
 # LOCAL_SRC_FILES += ../../Classes/AppDelegate.cpp
 # LOCAL_SRC_FILES += ../../Classes/PenaltyKickGame/PenaltyKickGame.cpp
 
-# LOCAL_SRC_FILES := hellocpp/main.cpp \
+# LOCAL_SRC_FILES := hellocpp/main.cpp \
 #                   ../../Classes/AppDelegate.cpp \
 #                   ../../Classes/PenaltyKickGame/PenaltyKickGame.cpp
 
@@ -65,8 +65,8 @@ LOCAL_STATIC_LIBRARIES := cocos2dx_static
 # _COCOS_LIB_ANDROID_END
 
 include $(BUILD_SHARED_LIBRARY)
- 
- 
+
+
 $(call import-module,extensions)
 
 # $(call import-module,./prebuilt-mk)

@@ -1,3 +1,4 @@
+
 #pragma once
 
 #include "../Utils/TouchableGameObject.h"
@@ -5,9 +6,7 @@
 
 class ShapesGame;
 
-
 class Gorilla : public TouchableGameObject {
-
 public:
 	Gorilla(Node& parentNode, const Vec2& localPosition, string csbPath, EventDispatcher* eventDispatcher, ShapesGame* shapesGame);
 	virtual ~Gorilla();
@@ -28,11 +27,8 @@ private:
 	Gorilla(const Gorilla& otherGorilla);					// Unimplemented
 	Gorilla& operator=(const Gorilla& otherGorilla);		// Unimplemented
 	virtual bool onTouchBegan(Touch* touch, Event* event);
-
 };
 
 inline int Gorilla::getEatenBiscuits() const {
-
 	return eatenBiscuits;
-
 }
