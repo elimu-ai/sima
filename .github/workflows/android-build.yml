@@ -96,17 +96,17 @@ jobs:
         working-directory: proj.android
         run: |
           export NDK_MODULE_PATH=$COCOS_X_ROOT/cocos2d-x-3.10:$COCOS_X_ROOT/cocos2d-x-3.10/cocos:$COCOS_X_ROOT/cocos2d-x-3.10/external
-
+          
           # Create jni/Application.mk to specify architecture
           echo "APP_ABI := armeabi" > jni/Application.mk
           echo "APP_STL := gnustl_static" >> jni/Application.mk
           echo "NDK_TOOLCHAIN_VERSION := 4.9" >> jni/Application.mk
           echo "APP_ALLOW_MISSING_DEPS := true" >> jni/Application.mk
-          echo "APP_CPPFLAGS := -std=c++11" >> jni/Application.mk
-
+          echo "APP_CPPFLAGS := -std=c++11 -frtti" >> jni/Application.mk
+          
           # Debug the environment
           echo "NDK_MODULE_PATH=$NDK_MODULE_PATH"
-
+          
           # Build with explicit ABI specification
           $ANDROID_NDK_HOME/ndk-build -C jni APP_ABI=armeabi
 
