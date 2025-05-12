@@ -1,13 +1,12 @@
+
 #pragma once
 
-#include "../utils/TouchableGameObject.h"
+#include "../Utils/TouchableGameObject.h"
 #include "Biscuit.h"
 
 class ShapesGame;
 
-
 class Gorilla : public TouchableGameObject {
-
 public:
 	Gorilla(Node& parentNode, const Vec2& localPosition, string csbPath, EventDispatcher* eventDispatcher, ShapesGame* shapesGame);
 	virtual ~Gorilla();
@@ -24,15 +23,12 @@ private:
 	ShapesGame* shapesGame;
 	int eatenBiscuits;
 	CocosDenshion::SimpleAudioEngine* simpleAudioEngine;
-	Gorilla();												// Unimplemented
-	Gorilla(const Gorilla& otherGorilla);					// Unimplemented
-	Gorilla& operator=(const Gorilla& otherGorilla);		// Unimplemented
+	Gorilla();                                                // Unimplemented
+	Gorilla(const Gorilla& otherGorilla);                     // Unimplemented
+	Gorilla& operator=(const Gorilla& otherGorilla);         // Unimplemented
 	virtual bool onTouchBegan(Touch* touch, Event* event);
-
 };
 
 inline int Gorilla::getEatenBiscuits() const {
-
 	return eatenBiscuits;
-
 }
