@@ -28,7 +28,7 @@ jobs:
 
       - name: Install Android SDK components
         run: |
-          sdkmanager "platforms;android-22" "build-tools;30.0.3"
+          sdkmanager "platforms;android-26" "build-tools;30.0.3"
 
       - name: Set up Android NDK r16b
         run: |
@@ -122,7 +122,41 @@ jobs:
           # Build with explicit ABI specification
           $ANDROID_NDK_HOME/ndk-build -C jni APP_ABI=armeabi
 
+      - name: Download and install Android SDK Tools (with Ant support)
+        run: |
+          mkdir -p $ANDROID_SDK_ROOT/tools
+          cd $ANDROID_SDK_ROOT
+          # Download official SDK tools with Ant support
+          wget https://dl.google.com/android/repository/tools_r25.2.5-linux.zip -O tools_r25.2.5-linux.zip
+          unzip -q tools_r25.2.5-linux.zip -d temp-sdk-tools
+          # Copy Ant build files
+          cp -r temp-sdk-tools/tools/ant $ANDROID_SDK_ROOT/tools/
+          # Copy custom Ant task definitions
+          mkdir -p $ANDROID_SDK_ROOT/tools/lib
+          cp temp-sdk-tools/tools/lib/ant-tasks.jar $ANDROID_SDK_ROOT/tools/lib/
+          # Cleanup
+          rm -rf temp-sdk-tools tools_r25.2.5-linux.zip
+          echo "Installed Android SDK Tools with Ant support"
+          ls -la $ANDROID_SDK_ROOT/tools/ant/
+          ls -la $ANDROID_SDK_ROOT/tools/lib/
+
+      - name: Setup Android Ant tasks
+        run: |
+          mkdir -p $ANDROID_SDK_ROOT/tools/ant/etc
+          echo 'sdk.dir=$ANDROID_SDK_ROOT' > proj.android/local.properties
+          
+          # Download additional task definitions
+          wget https://android.googlesource.com/platform/sdk/+/98b631c6b3765be96b3707ba7aa54d52b10f4872/files/ant/etc/ant-tasks.properties?format=TEXT -O ant/ant-tasks.properties.raw \
+            && base64 -d ant/ant-tasks.properties.raw > ant/ant-tasks.properties
+          cp ant/ant-tasks.properties $ANDROID_SDK_ROOT/tools/ant/etc/
+          
+          # Make sure Ant can find the Android tasks
+          echo "Using Ant version: $(ant -version)"
+          ls -la $ANDROID_SDK_ROOT/tools/ant/
+          ls -la $ANDROID_SDK_ROOT/tools/ant/etc/
+
       - name: Build Android APK with Ant
         working-directory: proj.android
         run: |
-          ant debug
+          # Add verbose flag to ant to see what's happening
+          ant -verbose debug
