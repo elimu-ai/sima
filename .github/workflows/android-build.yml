@@ -126,10 +126,19 @@ jobs:
         run: |
           mkdir -p $ANDROID_SDK_ROOT/tools/ant
           cd $ANDROID_SDK_ROOT/tools
-          wget https://android.googlesource.com/platform/sdk/+/98b631c6b3765be96b3707ba7aa54d52b10f4872/files/ant/build.xml?format=TEXT -O ant/build.xml.raw && base64 -d ant/build.xml.raw > ant/build.xml
-          wget https://android.googlesource.com/platform/sdk/+/98b631c6b3765be96b3707ba7aa54d52b10f4872/files/ant/ant_rules_r3.xml?format=TEXT -O ant/ant_rules_r3.xml.raw && base64 -d ant/ant_rules_r3.xml.raw > ant/ant_rules_r3.xml
-          wget https://android.googlesource.com/platform/sdk/+/98b631c6b3765be96b3707ba7aa54d52b10f4872/files/ant/ant-templates/other/build.template?format=TEXT -O ant/build.template.raw base64 -d ant/build.template.raw > ant/build.template
-          wget https://android.googlesource.com/platform/sdk/+/98b631c6b3765be96b3707ba7aa54d52b10f4872/files/ant/custom_rules.xml?format=TEXT -O ant/custom_rules.xml.raw base64 -d ant/custom_rules.xml.raw > ant/custom_rules.xml
+
+          wget https://android.googlesource.com/platform/sdk/+/98b631c6b3765be96b3707ba7aa54d52b10f4872/files/ant/build.xml?format=TEXT -O ant/build.xml.raw \
+            && base64 -d ant/build.xml.raw > ant/build.xml
+
+          wget https://android.googlesource.com/platform/sdk/+/98b631c6b3765be96b3707ba7aa54d52b10f4872/files/ant/ant_rules_r3.xml?format=TEXT -O ant/ant_rules_r3.xml.raw \
+            && base64 -d ant/ant_rules_r3.xml.raw > ant/ant_rules_r3.xml
+
+          wget https://android.googlesource.com/platform/sdk/+/98b631c6b3765be96b3707ba7aa54d52b10f4872/files/ant/ant-templates/other/build.template?format=TEXT -O ant/build.template.raw \
+            && base64 -d ant/build.template.raw > ant/build.template
+
+          wget https://android.googlesource.com/platform/sdk/+/98b631c6b3765be96b3707ba7aa54d52b10f4872/files/ant/custom_rules.xml?format=TEXT -O ant/custom_rules.xml.raw \
+            && base64 -d ant/custom_rules.xml.raw > ant/custom_rules.xml
+
           echo "Installed Ant build tools to $ANDROID_SDK_ROOT/tools/ant/"
           ls -la $ANDROID_SDK_ROOT/tools/ant/
 
