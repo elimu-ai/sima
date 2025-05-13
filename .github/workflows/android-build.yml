@@ -142,6 +142,21 @@ jobs:
           echo "Installed Ant build tools to $ANDROID_SDK_ROOT/tools/ant/"
           ls -la $ANDROID_SDK_ROOT/tools/ant/
 
+      - name: Setup Android Ant tasks
+        run: |
+          mkdir -p $ANDROID_SDK_ROOT/tools/ant/etc
+          echo 'sdk.dir=$ANDROID_SDK_ROOT' > proj.android/local.properties
+          
+          # Download additional task definitions
+          wget https://android.googlesource.com/platform/sdk/+/98b631c6b3765be96b3707ba7aa54d52b10f4872/files/ant/etc/ant-tasks.properties?format=TEXT -O ant/ant-tasks.properties.raw \
+            && base64 -d ant/ant-tasks.properties.raw > ant/ant-tasks.properties
+          cp ant/ant-tasks.properties $ANDROID_SDK_ROOT/tools/ant/etc/
+          
+          # Make sure Ant can find the Android tasks
+          echo "Using Ant version: $(ant -version)"
+          ls -la $ANDROID_SDK_ROOT/tools/ant/
+          ls -la $ANDROID_SDK_ROOT/tools/ant/etc/
+
       - name: Build Android APK with Ant
         working-directory: proj.android
         run: |
