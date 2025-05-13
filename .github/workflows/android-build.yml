@@ -122,25 +122,23 @@ jobs:
           # Build with explicit ABI specification
           $ANDROID_NDK_HOME/ndk-build -C jni APP_ABI=armeabi
 
-      - name: Download and install Android SDK Ant tools
+      - name: Download and install Android SDK Tools (with Ant support)
         run: |
-          mkdir -p $ANDROID_SDK_ROOT/tools/ant
-          cd $ANDROID_SDK_ROOT/tools
-
-          wget https://android.googlesource.com/platform/sdk/+/98b631c6b3765be96b3707ba7aa54d52b10f4872/files/ant/build.xml?format=TEXT -O ant/build.xml.raw \
-            && base64 -d ant/build.xml.raw > ant/build.xml
-
-          wget https://android.googlesource.com/platform/sdk/+/98b631c6b3765be96b3707ba7aa54d52b10f4872/files/ant/ant_rules_r3.xml?format=TEXT -O ant/ant_rules_r3.xml.raw \
-            && base64 -d ant/ant_rules_r3.xml.raw > ant/ant_rules_r3.xml
-
-          wget https://android.googlesource.com/platform/sdk/+/98b631c6b3765be96b3707ba7aa54d52b10f4872/files/ant/ant-templates/other/build.template?format=TEXT -O ant/build.template.raw \
-            && base64 -d ant/build.template.raw > ant/build.template
-
-          wget https://android.googlesource.com/platform/sdk/+/98b631c6b3765be96b3707ba7aa54d52b10f4872/files/ant/custom_rules.xml?format=TEXT -O ant/custom_rules.xml.raw \
-            && base64 -d ant/custom_rules.xml.raw > ant/custom_rules.xml
-
-          echo "Installed Ant build tools to $ANDROID_SDK_ROOT/tools/ant/"
+          mkdir -p $ANDROID_SDK_ROOT/tools
+          cd $ANDROID_SDK_ROOT
+          # Download official SDK tools with Ant support
+          wget https://dl.google.com/android/repository/tools_r25.2.5-linux.zip -O tools_r25.2.5-linux.zip
+          unzip -q tools_r25.2.5-linux.zip -d temp-sdk-tools
+          # Copy Ant build files
+          cp -r temp-sdk-tools/tools/ant $ANDROID_SDK_ROOT/tools/
+          # Copy custom Ant task definitions
+          mkdir -p $ANDROID_SDK_ROOT/tools/lib
+          cp temp-sdk-tools/tools/lib/ant-tasks.jar $ANDROID_SDK_ROOT/tools/lib/
+          # Cleanup
+          rm -rf temp-sdk-tools tools_r25.2.5-linux.zip
+          echo "Installed Android SDK Tools with Ant support"
           ls -la $ANDROID_SDK_ROOT/tools/ant/
+          ls -la $ANDROID_SDK_ROOT/tools/lib/
 
       - name: Setup Android Ant tasks
         run: |
