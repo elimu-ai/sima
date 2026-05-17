@@ -14,7 +14,7 @@
         <LuaEncryptSign Value="" />
         <Android_PackageName Value="org.cocos.Kukua" />
         <AndroidkeyStore Value="" />
-        <AndroidVersion Value="android-22" />
+        <AndroidVersion Value="android-26" />
         <iOS_Target Value="Kukua-mobile" />
         <iOS_BundleID Value="iPhone Distribution: Melazeta srl" />
         <Platform Value="None" />
